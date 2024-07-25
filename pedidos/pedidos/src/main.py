@@ -10,7 +10,7 @@ from .models import models
 from .schemas import schemas
 from .tasks import tasks
 from .utility import utility
-
+import os
 
 env_file = find_dotenv('.env.pedidos')
 loaded = load_dotenv(env_file)
@@ -38,7 +38,7 @@ def create_pedido(pedido: schemas.PedidosRegister = Body(default=None), db: Sess
     elif not pedido.para or not pedido.de or not pedido.cliente or not pedido.motivo:
         return utility.get_json_response('E400', 'de, para, cliente y motivo son campos obligatorios')
     else:
-        response = requests.get(f'http://localhost:8000/cliente/'+str(pedido.cliente))
+        response = requests.get(f'http://{os.environ.get("CLIENTE_HOST")}/cliente/'+str(pedido.cliente))
         if response.status_code == 200:
             pedido: models.Pedidos = tasks.create_pedidos(db=db, pedidos=pedido)
             return {

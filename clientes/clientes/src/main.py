@@ -55,6 +55,9 @@ def create_clientes(cliente: schemas.ClientesRegister = Body(default=None), db: 
                 "TOKEN": token,
             }
 
+@app.get("/cliente/ping", status_code=status.HTTP_200_OK)
+def verify_health_clientes():
+    return {"msg": "Pong"}
 
 @app.get("/cliente/{idcliente}", status_code=status.HTTP_200_OK)
 def get_cliente(idcliente: str, db: Session = Depends(database.get_db)):
@@ -64,10 +67,6 @@ def get_cliente(idcliente: str, db: Session = Depends(database.get_db)):
     else:
         return cliente
 
-
-@app.get("/cliente/ping", status_code=status.HTTP_200_OK)
-def verify_health_clientes():
-    return {"msg": "Pong"}
 
 
 @app.post("/cliente/reset", status_code=status.HTTP_200_OK)

@@ -1,0 +1,56 @@
+version: "3.7"
+
+services:
+  floristeria_db:
+    container_name: floristeria_db
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    networks:
+    -  floristeria_net
+  pedidos:
+    container_name: pedidos
+    image: localhost:5000/pedidos:v1
+    ports:
+      - 8001:8001
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: 123456
+      DB_HOST: floristeria_db
+      DB_NAME: pedidos
+      DB_PORT: 5432
+      CLIENTE_HOST: clientes
+      SECRET_KEY: modernizacion
+    depends_on:
+      floristeria_db:
+        condition: service_healthy
+    networks:
+      - floristeria_net
+  clientes:
+    container_name: clientes
+    image: localhost:5000/clientes:v1
+    ports:
+      - 8000:8000
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: 123456
+      DB_HOST: floristeria_db
+      DB_NAME: clientes
+      DB_PORT: 5432
+      SECRET_KEY: modernizacion
+    depends_on:
+      floristeria_db:
+        condition: service_healthy
+    networks:
+      - floristeria_net
+networks:
+  floristeria_net:
+    driver: bridge
