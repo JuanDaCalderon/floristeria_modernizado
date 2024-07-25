@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 class ClientesRegister(BaseModel):
     email: Union[str, None] = None
-    numcliente: Union[str, None] = None
+    numCliente: Union[str, None] = None
     nombre: Union[str, None] = None
     apellidos: Union[str, None] = None
     telefono: Union[str, None] = None

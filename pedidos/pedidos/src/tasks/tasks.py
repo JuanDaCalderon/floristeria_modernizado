@@ -5,7 +5,8 @@ from ..schemas import schemas
 
 
 def create_pedidos(db: Session, pedidos: schemas.PedidosRegister) -> models.Pedidos:
-    date_format = '%Y-%m-%d %H:%M:%S'
+    date_format = '%Y-%m-%d'
+    time_format = '%H:%M'
     new_pedido = models.Pedidos(
         PARA=pedidos.para.lower(),
         DE=pedidos.de.lower(),
@@ -20,7 +21,7 @@ def create_pedidos(db: Session, pedidos: schemas.PedidosRegister) -> models.Pedi
         TELEFONOCOBRO=pedidos.telefonoCobro.lower(),
         TELEFONOENTREGA=pedidos.telefonoEntrega.lower(),
         ENTREGADO=pedidos.entregado,
-        HORA=datetime.strptime(pedidos.hora, date_format),
+        HORA=datetime.strptime(pedidos.hora, time_format),
         COMENTARIO=pedidos.comentario.lower(),
         MOTIVO=pedidos.motivo.lower(),
         CLIENTE=pedidos.cliente

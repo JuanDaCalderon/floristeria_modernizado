@@ -29,7 +29,7 @@ def create_cliente(db: Session, cliente: schemas.ClientesRegister) -> CreationCl
     new_cliente = models.Clientes(
         EMAIL=cliente.email.lower(),
         TELEFONO=cliente.telefono.lower(),
-        NUMCLIENTE=cliente.numcliente.lower(),
+        NUMCLIENTE=cliente.numCliente.lower(),
         NOMBRE=cliente.nombre.lower(),
         APELLIDOS=cliente.apellidos.lower(),
         CELULAR=cliente.celular.lower()

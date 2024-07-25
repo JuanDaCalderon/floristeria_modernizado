@@ -33,7 +33,7 @@ def root():
 def create_clientes(cliente: schemas.ClientesRegister = Body(default=None), db: Session = Depends(database.get_db)):
     if not cliente:
         return utility.get_json_response('E422', 'El body de la petición esta vacio')
-    elif not cliente.email or not cliente.numcliente or not cliente.nombre or not cliente.apellidos or not cliente.celular or not cliente.telefono:
+    elif not cliente.email or not cliente.numCliente or not cliente.nombre or not cliente.apellidos or not cliente.celular or not cliente.telefono:
         return utility.get_json_response('E400', 'email, numcliente, nombre, apellidos, celular y telefono son campos obligatorios')
     elif not utility.is_valid_email(cliente.email):
         return utility.get_json_response('E400', 'El email no tiene el formato correcto')
